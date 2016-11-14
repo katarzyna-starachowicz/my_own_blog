@@ -21,6 +21,7 @@ group :development, :test do
   gem 'rubocop-rspec', '~> 1.8'
   gem 'capybara'
   gem 'factory_girl_rails'
+  gem 'faker', '~> 1.6', '>= 1.6.6'
 end
 
 group :development do
