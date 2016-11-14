@@ -1,0 +1,64 @@
+AllCops:
+  TargetRubyVersion: 2.3
+  Include:
+    - '**/Rakefile'
+  Exclude:
+    - 'vendor/**/*'
+    - db/**/*
+    - config/**/*
+    - script/**/*
+    - bin/**/*
+
+Documentation:
+  Enabled: false
+
+FormatString:
+  Enabled: false
+
+StringLiterals:
+  Enabled: false
+
+LineLength:
+  Max: 160
+
+SignalException:
+  EnforcedStyle: only_raise
+
+Style/RaiseArgs:
+  EnforcedStyle: exploded
+
+Style/NumericLiterals:
+  Enabled: false
+
+Style/PredicateName:
+  Enabled: false
+
+Style/AndOr:
+  EnforcedStyle: conditionals
+
+DotPosition:
+  EnforcedStyle: trailing
+
+RSpec/DescribeClass:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/MultilineOperationIndentation:
+  EnforcedStyle: indented
+
+Style/GuardClause:
+  Enabled: false
+
+Style/IndentArray:
+  Enabled: false
+
+Style/Alias:
+  EnforcedStyle: prefer_alias_method
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+RSpec/NestedGroups:
+  MaxNesting: 4
