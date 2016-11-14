@@ -18,4 +18,8 @@ RSpec.describe User, type: :model do
       expect(user.admin?).to be false
     end
   end
+
+  describe 'associations' do
+    it { is_expected.to have_many :posts }
+  end
 end
