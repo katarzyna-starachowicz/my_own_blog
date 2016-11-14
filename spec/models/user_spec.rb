@@ -8,5 +8,14 @@ RSpec.describe User, type: :model do
 
   describe 'database columns' do
     it { is_expected.to have_db_column :email }
+    it { is_expected.to have_db_column :admin }
+  end
+
+  describe 'admin column' do
+    let(:user) { create :user }
+
+    it 'is default false' do
+      expect(user.admin?).to be false
+    end
   end
 end
