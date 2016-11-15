@@ -1,8 +1,8 @@
 !!!
 %html
   %head
-    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
-    %link{:href => "http://fonts.googleapis.com/css?family=Lato:regular,bold", :rel => "stylesheet", :type => "text/css"}
+    %meta{ content: "text/html; charset=UTF-8", "http-equiv" => "Content-Type" }/
+    %link{ href: "http://fonts.googleapis.com/css?family=Lato:regular,bold", rel: "stylesheet", type: "text/css" }
 
     %title MyOwnBlog
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
@@ -10,16 +10,14 @@
     = csrf_meta_tags
 
   %body
-    .sidebar
+    %nav.sidebar
       = render 'layouts/navigation'
 
     .main
-      .header
-        %p
-        = I18n.t "page_title.#{controller_name}.#{action_name}"
+      %header.header
+        %p= I18n.t "page_title.#{controller_name}.#{action_name}"
         = render 'layouts/login'
 
-      .page_wrapper
-        %section
+      %section.page_wrapper
         = render 'layouts/messages'
         = yield
