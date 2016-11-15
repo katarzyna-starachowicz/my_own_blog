@@ -6,4 +6,4 @@
   %p.date
     = link_to 'Back to all posts', posts_path
   .body
-    = post.body
+    = post.body.html_safe

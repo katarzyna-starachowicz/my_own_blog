@@ -7,16 +7,16 @@ class PostsRepo
     Post.find(post_id)
   end
 
-  def new
-    Post.new
+  def new(post_form = nil)
+    Post.new(post_form.try(:to_hash))
   end
 
-  def create(post_params)
-    Post.create(post_params)
+  def create(post_form)
+    Post.create(post_form.to_hash)
   end
 
   def update(post_id, params)
-    find.(post_id).tap do |post|
+    find(post_id).tap do |post|
       post.update(params)
     end
   end

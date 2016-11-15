@@ -3,6 +3,8 @@ en:
     posts:
       index: 'All posts'
       show: 'Thanks for reading!'
+      new: 'What interesting do you want to write about?'
+      create: "Oooops, you've lost something..."
     home:
       about_me: 'About me'
     registrations:
