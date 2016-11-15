@@ -1,0 +1,140 @@
+/*Imported (with small modifications) from Mackenzie Child:
+https://github.com/mackenziechild/blog/blob/12e6e63d1c710c5dfabbff9f67a427d534955dbb/app/assets/stylesheets/application.css.scss*/
+
+html, body {
+  font-family: 'Lato', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 500;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.sidebar {
+  width: 250px;
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100%;
+  background: #f5f7f9;
+  padding: 7em 0 0 0;
+  border-right: 1px solid #d6dce0;
+  #my_face {
+    width: 40px;
+    position: absolute;
+    right: 3em;
+    top: 3em;
+  }
+  ul {
+    list-style: none;
+    text-align: right;
+    padding-right: 3em;
+    li {
+      padding: .5em 0;
+      a {
+        color: #9eafba;
+        text-decoration: none;
+        transition: all .4s ease;
+        &:hover {
+          color: #33acb7;
+        }
+      }
+    }
+    .active {
+      a {
+        color: #33acb7;
+      }
+    }
+  }
+}
+
+button {
+  outline: none;
+  background: transparent;
+  border: 1px solid #d6dce0;
+  padding: .5em 1.5em;
+  border-radius: 1.5em;
+  &:hover {
+    border: 1px solid #33acb7;
+    color: #33acb7;
+    a {
+      color: #33acb7 !important;
+    }
+  }
+}
+
+.main {
+  margin-left: 250px;
+  .header {
+    padding: 1em 3em;
+    border-bottom: 1px solid #d6dce0;
+    background: #f5f7f9;
+    color: #9eafba;
+    p {
+      display: inline;
+    }
+    a {
+      color: #9eafba;
+      text-decoration: none;
+    }
+    .buttons {
+      float: right;
+      margin-top: -6px;
+      button {
+        font-size: .8em;
+        margin-left: .5em;
+      }
+    }
+  }
+
+  .page_wrapper {
+    padding: 3em;
+    .about_me {
+      h1 {
+        font-weight: 500;
+      }
+      p {
+        font-size: 1.1em;
+        line-height: 1.75;
+        color: #696969;
+      }
+      a {
+        color: #33acb7;
+        font-weight: 700;
+        text-decoration: none;
+      }
+    }
+  }
+
+  input[type="text"], input[type="email"], input[type="password"], textarea {
+    width: 90%;
+    border: 1px solid #d6dce0;
+    border-radius: .35em;
+    margin-top: 10px;
+    padding: .5em 1em;
+    line-height: 1.75;
+  }
+  input[type="text"] {
+    height: 35px;
+  }
+  textarea {
+    min-height: 180px;
+  }
+  input[type="submit"] {
+    outline: none;
+    background: transparent;
+    border: 1px solid #d6dce0;
+    padding: .5em 1.5em;
+    font-size: 1.1em;
+    border-radius: 1.5em;
+    margin-left: .5em;
+    &:hover {
+      border: 1px solid #33acb7;
+      color: #33acb7;
+    }
+  }
+}
