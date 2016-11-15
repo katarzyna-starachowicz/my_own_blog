@@ -1,6 +1,6 @@
 - posts.each do |post|
   .post_wrapper
     %h2.title
-      =link_to post.title, post
+      = link_to post.title, post
     %p.date
-      =post.created_at.strftime("%B %d, %Y")
+      = post.created_at.strftime("%B %d, %Y")

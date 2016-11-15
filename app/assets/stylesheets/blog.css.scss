@@ -133,9 +133,25 @@ button {
         }
       }
     }
-    p.date {
+    .date {
       color: #696969;
       margin: .5em 0 0 0;
+      &.on_show_page {
+        margin: 1em 0 0 0;
+        color: #778899;
+      }
+      a {
+        color: #9eafba;
+        text-decoration: none;
+        transition: all .4s ease;
+        &:hover {
+          color: #33acb7;
+        }
+      }
+    }
+    .body {
+      color: #696969;
+      margin-top: 1.5em;
     }
   }
 }

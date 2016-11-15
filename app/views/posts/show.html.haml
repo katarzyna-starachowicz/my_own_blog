@@ -1,0 +1,9 @@
+.post_wrapper
+  %h1.title
+    = post.title
+  %p.date.on_show_page
+    published: #{time_ago_in_words(post.created_at)} ago
+  %p.date
+    = link_to 'Back to all posts', posts_path
+  .body
+    = post.body

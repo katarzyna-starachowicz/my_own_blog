@@ -2,6 +2,7 @@ en:
   page_title:
     posts:
       index: 'All posts'
+      show: 'Thanks for reading!'
     home:
       about_me: 'About me'
     registrations:
