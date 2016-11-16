@@ -154,6 +154,14 @@ button {
       margin-top: 1.5em;
     }
   }
+
+  #errors {
+    width: 90%;
+    border: 1px solid #990000;
+    border-radius: .35em;
+    padding: .5em 1em;
+    margin-bottom: 1.25em;
+  }
 }
 
   input[type="text"], input[type="email"], input[type="password"], textarea {

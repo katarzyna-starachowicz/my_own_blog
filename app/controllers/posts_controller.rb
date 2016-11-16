@@ -8,23 +8,23 @@ class PostsController < ApplicationController
 
   def show
     post = repo.find(params[:id])
-    render_with_locals :show, post
+    render :show, locals: { post: post }
   end
 
   def new
-    render_with_locals :new, repo.new
+    render_with_form :new, PostForm.new
   end
 
   def create
     form = PostForm.new(
-      post_params.merge(user_id: current_user.id)
+      post_form_params.merge(user_id: current_user.id)
     )
 
     if form.valid?
       post = repo.create(form)
       redirect_to post, locals: { post: post }
     else
-      render_with_locals :new, repo.new(form)
+      render_with_form :new, form
     end
   end
 
@@ -34,11 +34,11 @@ class PostsController < ApplicationController
     @posts_repo ||= PostsRepo.new
   end
 
-  def render_with_locals(template, post)
-    render template, locals: { post: post }
+  def render_with_form(template, post_form)
+    render template, locals: { post_form: post_form }
   end
 
-  def post_params
-    params.require(:post).permit(:title, :body)
+  def post_form_params
+    params.require(:post_form).permit(:title, :body)
   end
 end
