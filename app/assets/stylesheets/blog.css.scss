@@ -155,9 +155,17 @@ button {
     }
   }
 
-  #errors {
+  .errors {
     width: 90%;
     border: 1px solid #990000;
+    border-radius: .35em;
+    padding: .5em 1em;
+    margin-bottom: 1.25em;
+  }
+
+  .notice {
+    width: 40%;
+    border: 1px solid #01c5bb;
     border-radius: .35em;
     padding: .5em 1em;
     margin-bottom: 1.25em;

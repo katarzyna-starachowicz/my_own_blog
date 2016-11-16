@@ -5,5 +5,8 @@
     published: #{time_ago_in_words(post.created_at)} ago
   %p.date
     = link_to 'Back to all posts', posts_path
+  - if admin_signed_in?
+    %p.date
+      = link_to 'Delete', post_path(post), method: :delete, data: { confirm: 'Are you sure?' }
   .body
     = post.body.html_safe

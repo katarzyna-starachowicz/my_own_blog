@@ -1,7 +1,7 @@
 = form_for post_form, url: posts_path, method: :post do |f|
 
   - if post_form.errors.any?
-    #errors
+    .errors
       %h3 #{pluralize(post_form.errors.count, 'error')} prevented this post from saving:
       %ul
         - post_form.errors.full_messages.each do |msg|

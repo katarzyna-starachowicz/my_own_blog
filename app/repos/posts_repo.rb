@@ -7,8 +7,9 @@ class PostsRepo
     Post.find(post_id)
   end
 
-  def new(post_form = nil)
-    Post.new(post_form.try(:to_hash))
+  def find_admins_post(admin_id, post_id)
+    post = find(post_id)
+    post.user_id == admin_id ? post : nil
   end
 
   def create(post_form)
