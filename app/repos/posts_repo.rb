@@ -1,8 +1,4 @@
 class PostsRepo
-  def all_from_the_last
-    Post.all.order('created_at DESC')
-  end
-
   def find(post_id)
     Post.find(post_id)
   end

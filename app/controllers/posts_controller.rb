@@ -2,7 +2,7 @@ class PostsController < ApplicationController
   before_action :authenticate_admin!, except: [:index, :show]
 
   def index
-    posts = repo.all_from_the_last
+    posts = PostsQuery.new.all_from_the_last
     render :index, locals: { posts: posts }
   end
 
