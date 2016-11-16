@@ -5,6 +5,7 @@ en:
       show: 'Thanks for reading!'
       new: 'What interesting do you want to write about?'
       create: "Oooops, you've lost something..."
+      update: "Oooops, you've lost something..."
       edit: "Still not perfect, isn't it?"
     home:
       about_me: 'About me'

@@ -13,12 +13,20 @@ class PostsRepo
   end
 
   def create(post_form)
-    Post.create(post_form.to_hash)
+    Post.create(
+      title:   post_form.title,
+      body:    post_form.body,
+      user_id: post_form.user_id
+    )
   end
 
-  def update(post_id, params)
-    find(post_id).tap do |post|
-      post.update(params)
+  def update(post_form)
+    find(post_form.id).tap do |post|
+      post.update(
+        title:   post_form.title,
+        body:    post_form.body,
+        user_id: post_form.user_id
+      )
     end
   end
 
