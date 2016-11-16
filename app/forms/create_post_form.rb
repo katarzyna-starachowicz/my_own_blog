@@ -1,4 +1,4 @@
-class PostForm
+class CreatePostForm
   include Virtus.model
   include ActiveModel::Model
 

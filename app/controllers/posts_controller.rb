@@ -12,12 +12,12 @@ class PostsController < ApplicationController
   end
 
   def new
-    render_with_form :new, PostForm.new
+    render_with_form :new, CreatePostForm.new
   end
 
   def create
-    form = PostForm.new(
-      post_form_params.merge(user_id: current_user.id)
+    form = CreatePostForm.new(
+      create_post_form_params.merge(user_id: current_user.id)
     )
 
     if form.valid?
@@ -25,6 +25,29 @@ class PostsController < ApplicationController
       redirect_to post, locals: { post: post }
     else
       render_with_form :new, form
+    end
+  end
+
+  def edit
+    post = repo.find_admins_post(current_user.id, params[:id])
+    post_form = EditPostForm.new(
+      id: params[:id],
+      user_id: post.user_id,
+      title: post.title,
+      body: post.body
+    )
+    render_with_form :edit, post_form
+  end
+
+  def update
+    post_form = EditPostForm.new(
+      edit_post_form_params.merge(user_id: current_user.id, id: params[:id])
+    )
+    if post_form.valid?
+      post = repo.update(params[:id], edit_post_form_params)
+      redirect_to post, locals: { post: post }, notice: 'Post was successfully updated.'
+    else
+      render_with_form :edit, post_form
     end
   end
 
@@ -48,7 +71,11 @@ class PostsController < ApplicationController
     render template, locals: { post_form: post_form }
   end
 
-  def post_form_params
-    params.require(:post_form).permit(:title, :body)
+  def create_post_form_params
+    params.require(:create_post_form).permit(:title, :body)
+  end
+
+  def edit_post_form_params
+    params.require(:edit_post_form).permit(:title, :body)
   end
 end

@@ -1,4 +1,4 @@
-= form_for post_form, url: posts_path, method: :post do |f|
+= form_for post_form, url: url_for_form(post_form) do |f|
 
   - if post_form.errors.any?
     .errors
