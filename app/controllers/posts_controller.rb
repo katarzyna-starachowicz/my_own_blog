@@ -22,7 +22,7 @@ class PostsController < ApplicationController
 
     if post_form.valid?
       post = repo.create(post_form)
-      redirect_to post, locals: { post: post }
+      redirect_to post, locals: { post: post }, notice: 'Post was successfully created.'
     else
       render_with_form :new, post_form
     end
@@ -31,10 +31,10 @@ class PostsController < ApplicationController
   def edit
     post = repo.find_admins_post(current_user.id, params[:id])
     post_form = PostForm.new(
-      id:          params[:id],
-      user_id:     post.user_id,
-      title:       post.title,
-      body:        post.body
+      id:      params[:id],
+      user_id: post.user_id,
+      title:   post.title,
+      body:    post.body
     )
     render_with_form :edit, post_form
   end
