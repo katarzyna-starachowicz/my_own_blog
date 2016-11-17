@@ -18,6 +18,8 @@ Shoulda::Matchers.configure do |config|
 end
 
 RSpec.configure do |config|
+  config.include Devise::TestHelpers,      type: :controller
+  config.include Features::SessionHelpers, type: :feature
   config.include FactoryGirl::Syntax::Methods
 
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
