@@ -19,7 +19,6 @@ class PostsController < ApplicationController
     post_form = PostForm.new(
       post_form_params.merge(user_id: current_user.id)
     )
-
     if post_form.valid?
       post = repo.create(post_form)
       redirect_to post, locals: { post: post }, notice: 'Post was successfully created.'
@@ -30,13 +29,17 @@ class PostsController < ApplicationController
 
   def edit
     post = repo.find_admins_post(current_user.id, params[:id])
-    post_form = PostForm.new(
-      id:      params[:id],
-      user_id: post.user_id,
-      title:   post.title,
-      body:    post.body
-    )
-    render_with_form :edit, post_form
+    if post.blank?
+      redirect_to post_path(repo.find(params[:id])), notice: 'You can not edit that post.'
+    else
+      post_form = PostForm.new(
+        id:      params[:id],
+        user_id: post.user_id,
+        title:   post.title,
+        body:    post.body
+      )
+      render_with_form :edit, post_form
+    end
   end
 
   def update

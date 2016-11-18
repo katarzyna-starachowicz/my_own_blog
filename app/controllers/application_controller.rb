@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   def access_denied
     store_location
     redirect_to new_user_session_path,
-                notice: "To access this page you must be logged as an admin."
+                notice: 'To access this page you must be logged as an admin.'
   end
 
   def authenticate_admin!
