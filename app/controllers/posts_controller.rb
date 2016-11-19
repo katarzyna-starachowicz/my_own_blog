@@ -2,17 +2,18 @@ class PostsController < ApplicationController
   before_action :authenticate_admin!, except: [:index, :show]
 
   def index
-    posts = PostsQuery.new.all_from_the_last
+    posts = post_service.load_all_posts
     render :index, locals: { posts: posts }
   end
 
   def show
-    post = repo.find(params[:id])
+    post = post_service.load_entire_post(params[:id])
     render :show, locals: { post: post }
   end
 
   def new
-    render_with_form :new, PostForm.new
+    post = post_service.load_empty_post_form
+    render_with_form :new, post
   end
 
   def create
@@ -77,6 +78,10 @@ class PostsController < ApplicationController
 
   def repo
     @posts_repo ||= PostsRepo.new
+  end
+
+  def post_service
+    @post_service ||= PostService.new(repo)
   end
 
   def render_with_form(template, post_form)
