@@ -3,7 +3,8 @@ require 'rails_helper'
 RSpec.describe PostsController, type: :controller do
   let(:user)  { create(:user) }
   let(:admin) { create(:user, :admin) }
-  let!(:post) { create(:post, user_id: admin.id) }
+
+  let!(:admin_post) { create(:post, user_id: admin.id) }
 
   describe 'GET #index' do
     subject { get :index }
@@ -12,7 +13,7 @@ RSpec.describe PostsController, type: :controller do
   end
 
   describe 'GET #show' do
-    subject { get :show, id: post.id }
+    subject { get :show, id: admin_post.id }
 
     it_behaves_like 'template rendering and http success returning', :show
   end
@@ -26,17 +27,54 @@ RSpec.describe PostsController, type: :controller do
       it_behaves_like 'template rendering and http success returning', :new
     end
 
-    describe 'GET #edit' do
-      subject { get :edit, id: post.id }
 
+    describe 'POST #create' do
+      subject { post :create, params }
+
+      let!(:params) do
+        {
+          post_form:
+            {
+              title: 'title',
+              body: 'body',
+              user_id: admin.id
+            }
+        }
+      end
+
+      context 'success' do
+        it { is_expected.to redirect_to post_path(Post.find_by(title: 'title')) }
+
+        it 'flashes info' do
+          subject
+          expect(flash[:notice]).to eq 'Post was successfully created.'
+        end
+
+        it 'creates post' do
+          expect{ subject }.to change(Post, :count).by(1)
+        end
+      end
+
+      context 'failure' do
+        before { params[:post_form][:title] = '' }
+
+        it_behaves_like 'template rendering and http success returning', :new
+      end
+    end
+
+    describe 'GET #edit' do
       context 'when admin want to edit his own post' do
+        subject { get :edit, id: admin_post.id }
+
         it_behaves_like 'template rendering and http success returning', :edit
       end
 
       context 'when admin want to edit not his post' do
-        let(:post) { create(:post) }
+        subject { get :edit, id: another_post.id }
 
-        it { is_expected.to redirect_to post_path(post) }
+        let(:another_post) { create(:post) }
+
+        it { is_expected.to redirect_to post_path(another_post) }
 
         it 'flashes info' do
           subject
@@ -46,9 +84,9 @@ RSpec.describe PostsController, type: :controller do
     end
 
     describe 'DELETE #destroy' do
-      subject { delete :destroy, id: post.id }
-
       context 'when admin want to delete his own post' do
+        subject { delete :destroy, id: admin_post.id }
+
         it { is_expected.to redirect_to posts_path }
 
         it 'flashes info' do
@@ -62,7 +100,8 @@ RSpec.describe PostsController, type: :controller do
       end
 
       context 'when admin want to delete not his own post' do
-        let!(:post) { create(:post) }
+        subject { delete :destroy, id: another_post.id }
+        let!(:another_post) { create(:post) }
 
         it { is_expected.to redirect_to posts_path }
 
@@ -87,14 +126,31 @@ RSpec.describe PostsController, type: :controller do
       it_behaves_like 'redirecting user to admin sign in page'
     end
 
+    describe 'POST #create' do
+      subject { post :create, params }
+
+      let!(:params) do
+        {
+          post_form:
+            {
+              title: 'title',
+              body: 'body',
+              user_id: admin.id
+            }
+        }
+      end
+
+      it_behaves_like 'redirecting user to admin sign in page'
+    end
+
     describe 'GET #edit' do
-      subject { get :edit, id: post.id }
+      subject { get :edit, id: admin_post.id }
 
       it_behaves_like 'redirecting user to admin sign in page'
     end
 
     describe 'DELETE #destroy' do
-      subject { delete :destroy, id: post.id }
+      subject { delete :destroy, id: admin_post.id }
 
       it_behaves_like 'redirecting user to admin sign in page'
     end
