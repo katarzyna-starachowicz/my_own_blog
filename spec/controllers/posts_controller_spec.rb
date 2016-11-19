@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe PostsController, type: :controller do
   let(:user)  { create(:user) }
   let(:admin) { create(:user, :admin) }
-  let(:post)  { create(:post, user_id: admin.id) }
+  let!(:post) { create(:post, user_id: admin.id) }
 
   describe 'GET #index' do
     subject { get :index }
@@ -44,6 +44,40 @@ RSpec.describe PostsController, type: :controller do
         end
       end
     end
+
+    describe 'DELETE #destroy' do
+      subject { delete :destroy, id: post.id }
+
+      context 'when admin want to delete his own post' do
+        subject { delete :destroy, id: post.id }
+
+        it { is_expected.to redirect_to posts_path }
+
+        it 'flashes info' do
+          subject
+          expect(flash[:notice]).to eq 'Post was successfully destroyed.'
+        end
+
+        it 'destroys post' do
+          expect{ subject }.to change(Post, :count).by(-1)
+        end
+      end
+
+      context 'when admin want to delete not his own post' do
+        let!(:post) { create(:post) }
+
+        it { is_expected.to redirect_to posts_path }
+
+        it 'flashes info' do
+          subject
+          expect(flash[:notice]).to eq 'You can not destroy that post.'
+        end
+
+        it 'does not destroy a post' do
+          expect{ subject }.not_to change(Post, :count)
+        end
+      end
+    end
   end
 
   context 'when user is not an admin' do
@@ -57,6 +91,12 @@ RSpec.describe PostsController, type: :controller do
 
     describe 'GET #edit' do
       subject { get :edit, id: post.id }
+
+      it_behaves_like 'redirecting user to admin sign in page'
+    end
+
+    describe 'DELETE #destroy' do
+      subject { delete :destroy, id: post }
 
       it_behaves_like 'redirecting user to admin sign in page'
     end
