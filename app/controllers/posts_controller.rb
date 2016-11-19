@@ -17,14 +17,11 @@ class PostsController < ApplicationController
   end
 
   def create
-    post_form = PostForm.new(
-      post_form_params.merge(user_id: current_user.id)
-    )
-    if post_form.valid?
-      post = repo.create(post_form)
+    post = post_service.admin_publishes_post(post_form_params, current_user)
+    if post.valid?
       redirect_to post, locals: { post: post }, notice: 'Post was successfully created.'
     else
-      render_with_form :new, post_form
+      render_with_form :new, post
     end
   end
 

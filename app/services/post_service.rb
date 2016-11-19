@@ -14,4 +14,11 @@ class PostService
   def load_empty_post_form
     PostForm.new
   end
+
+  def admin_publishes_post(post_attributes, admin)
+    post_form = PostForm.new(
+      post_attributes.merge(user_id: admin.id)
+    )
+    post_form.valid? ? @posts_repo.create(post_form) : post_form
+  end
 end
