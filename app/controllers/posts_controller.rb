@@ -43,17 +43,23 @@ class PostsController < ApplicationController
   end
 
   def update
-    post_form = PostForm.new(
-      post_form_params.merge(
-        user_id: current_user.id,
-        id: params[:id]
-      )
-    )
-    if post_form.valid?
-      post = repo.update(post_form)
-      redirect_to post, locals: { post: post }, notice: 'Post was successfully updated.'
+    # I know it's awful, it will be refactored in few next steps...
+    post = repo.find_admins_post(current_user.id, params[:id])
+    if post.blank?
+      redirect_to post_path(repo.find(params[:id])), notice: 'You can not edit that post.'
     else
-      render_with_form :edit, post_form
+      post_form = PostForm.new(
+        post_form_params.merge(
+          user_id: current_user.id,
+          id: params[:id]
+        )
+      )
+      if post_form.valid?
+        post = repo.update(post_form)
+        redirect_to post, locals: { post: post }, notice: 'Post was successfully updated.'
+      else
+        render_with_form :edit, post_form
+      end
     end
   end
 
