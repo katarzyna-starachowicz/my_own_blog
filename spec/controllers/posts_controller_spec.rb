@@ -49,8 +49,6 @@ RSpec.describe PostsController, type: :controller do
       subject { delete :destroy, id: post.id }
 
       context 'when admin want to delete his own post' do
-        subject { delete :destroy, id: post.id }
-
         it { is_expected.to redirect_to posts_path }
 
         it 'flashes info' do
@@ -96,7 +94,7 @@ RSpec.describe PostsController, type: :controller do
     end
 
     describe 'DELETE #destroy' do
-      subject { delete :destroy, id: post }
+      subject { delete :destroy, id: post.id }
 
       it_behaves_like 'redirecting user to admin sign in page'
     end
