@@ -62,7 +62,7 @@ class PostsController < ApplicationController
     if post.blank?
       redirect_to posts_path, notice: 'You can not destroy that post.'
     else
-      repo.destroy(post)
+      repo.destroy(post.id)
       redirect_to posts_path, notice: 'Post was successfully destroyed.'
     end
   end
