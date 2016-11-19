@@ -2,13 +2,15 @@ require 'rails_helper'
 
 feature 'Admin edits post' do
   let(:admin) { create :user, :admin }
-  let(:post)  { create :post, user_id: admin.id }
+  let!(:post) { create :post, user_id: admin.id }
 
   let!(:not_admins_post) { create :post }
 
   before do
     sign_in_as(admin)
-    visit edit_post_path(post)
+    click_on 'All posts'
+    click_on post.title
+    click_on 'Edit'
   end
 
   scenario 'with valid input' do
