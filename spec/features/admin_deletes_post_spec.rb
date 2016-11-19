@@ -20,8 +20,7 @@ feature 'Admin deletes post' do
 
   scenario 'can not delete not his own post' do
     click_on not_admins_post.title
-    click_on 'Delete'
 
-    expect(page).to have_content 'You can not destroy that post.'
+    expect(page).not_to have_content 'Delete'
   end
 end

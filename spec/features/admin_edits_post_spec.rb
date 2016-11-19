@@ -36,8 +36,7 @@ feature 'Admin edits post' do
   scenario 'can not edit not his own post' do
     click_on 'All posts'
     click_on not_admins_post.title
-    click_on 'Edit'
 
-    expect(page).to have_content 'You can not edit that post.'
+    expect(page).not_to have_content 'Edit'
   end
 end
