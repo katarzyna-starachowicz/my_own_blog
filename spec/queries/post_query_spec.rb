@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe PostsQuery do
+RSpec.describe PostQuery do
   subject(:posts_query) { described_class.new }
 
   describe '#all_from_the_last' do

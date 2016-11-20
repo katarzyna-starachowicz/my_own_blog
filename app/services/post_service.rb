@@ -4,7 +4,7 @@ class PostService
   end
 
   def load_all_posts
-    PostsQuery.new.all_from_the_last
+    PostQuery.new.all_from_the_last
   end
 
   def load_entire_post(post_id)
