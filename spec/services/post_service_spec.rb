@@ -11,8 +11,12 @@ RSpec.describe PostService do
   end
 
   describe '#load_entire_post' do
-    it 'returns post entity' do
+    it 'returns post entity if it exists' do
       expect(service.load_entire_post(post_1.id).title).to eq(post_1.title)
+    end
+
+    it 'returns nil if it does not exist' do
+      expect(service.load_entire_post(0)).to be nil
     end
   end
 
@@ -28,9 +32,9 @@ RSpec.describe PostService do
     end
   end
 
-  describe '#load_empty_post_form' do
+  describe '#admin_writes_new_post' do
     it 'returns an empty post form' do
-      expect(service.load_empty_post_form.to_h).to eql PostForm.new.to_h
+      expect(service.admin_writes_new_post.to_h).to eql PostForm.new.to_h
     end
   end
 

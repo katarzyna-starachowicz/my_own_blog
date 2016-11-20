@@ -8,11 +8,15 @@ class PostsController < ApplicationController
 
   def show
     post = post_service.load_entire_post(params[:id])
-    render :show, locals: { post: post }
+    if post.try(:valid?)
+      render :show, locals: { post: post }
+    else
+      redirect_to posts_path, notice: 'Sorry, the post not found.'
+    end
   end
 
   def new
-    post = post_service.load_empty_post_form
+    post = post_service.admin_writes_new_post
     render_with_form :new, post
   end
 

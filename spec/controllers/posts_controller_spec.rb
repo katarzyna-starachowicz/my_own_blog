@@ -27,6 +27,17 @@ RSpec.describe PostsController, type: :controller do
     subject { get :show, id: admin_post.id }
 
     it_behaves_like 'template rendering and http success returning', :show
+
+    context 'when post does not exist' do
+      subject { get :show, id: 0 }
+
+      it { is_expected.to redirect_to posts_path }
+
+      it 'flashes info' do
+        subject
+        expect(flash[:notice]).to eq 'Sorry, the post not found.'
+      end
+    end
   end
 
   context 'when user is an admin' do

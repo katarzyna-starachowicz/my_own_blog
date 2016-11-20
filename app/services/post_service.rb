@@ -9,9 +9,11 @@ class PostService
 
   def load_entire_post(post_id)
     @post_repo.find(post_id)
+  rescue ActiveRecord::RecordNotFound
+    return nil
   end
 
-  def load_empty_post_form
+  def admin_writes_new_post
     PostForm.new
   end
 
