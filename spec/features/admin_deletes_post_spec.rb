@@ -15,7 +15,7 @@ feature 'Admin deletes post' do
     click_on post.title
     click_on 'Delete'
 
-    expect(page).to have_content 'Post was successfully destroyed.'
+    expect(page).to have_content 'Post was successfully deleted.'
   end
 
   scenario 'can not delete not his own post' do

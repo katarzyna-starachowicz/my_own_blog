@@ -133,7 +133,7 @@ RSpec.describe PostsController, type: :controller do
 
         it 'flashes info' do
           subject
-          expect(flash[:notice]).to eq 'Post was successfully destroyed.'
+          expect(flash[:notice]).to eq 'Post was successfully deleted.'
         end
 
         it 'destroys post' do

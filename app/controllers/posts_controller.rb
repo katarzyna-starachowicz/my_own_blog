@@ -11,7 +11,7 @@ class PostsController < ApplicationController
     if post.try(:valid?)
       render :show, locals: { post: post }
     else
-      redirect_to posts_path, notice: 'Sorry, the post not found.'
+      redirect_to posts_path, notice: i18n_post('not_found')
     end
   end
 
@@ -23,7 +23,7 @@ class PostsController < ApplicationController
   def create
     post = post_service.admin_publishes_new_post(post_form_params, current_user)
     if post.valid?
-      redirect_to post, locals: { post: post }, notice: 'Post was successfully created.'
+      redirect_to post, locals: { post: post }, notice: i18n_post('created')
     else
       render_with_form :new, post
     end
@@ -34,16 +34,16 @@ class PostsController < ApplicationController
     if post.try(:valid?)
       render_with_form :edit, post
     else
-      redirect_to post_path(post), notice: 'You can not edit that post.'
+      redirect_to post_path(post), notice: i18n_post('unauthorized_edit')
     end
   end
 
   def update
     post = post_service.admin_publishes_edited_post(params[:id], post_form_params, current_user)
     if post.try(:valid?).nil?
-      redirect_to post_path(post), notice: 'You can not edit that post.'
+      redirect_to post_path(post), notice: i18n_post('unauthorized_edit')
     elsif post.valid?
-      redirect_to post, locals: { post: post }, notice: 'Post was successfully updated.'
+      redirect_to post, locals: { post: post }, notice: i18n_post('updated')
     else
       render_with_form :edit, post
     end
@@ -52,9 +52,9 @@ class PostsController < ApplicationController
   def destroy
     post = post_service.admin_destroys_post(params[:id], current_user)
     if post.try(:valid?)
-      redirect_to posts_path, notice: 'Post was successfully destroyed.'
+      redirect_to posts_path, notice: i18n_post('deleted')
     else
-      redirect_to post_path(post), notice: 'You can not destroy that post.'
+      redirect_to post_path(post), notice: i18n_post('unauthorized_destroy')
     end
   end
 
@@ -74,5 +74,9 @@ class PostsController < ApplicationController
 
   def post_form_params
     params.require(:post_form).permit(:title, :body)
+  end
+
+  def i18n_post(action)
+    I18n.t("shared.#{action}", resource: 'post').capitalize
   end
 end

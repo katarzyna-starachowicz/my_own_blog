@@ -14,3 +14,10 @@ en:
       edit: "What's new?"
     sessions:
       new: "It's great to see you again!"
+  shared:
+    created: "%{resource} was successfully created."
+    updated: "%{resource} was successfully updated."
+    deleted: "%{resource} was successfully deleted."
+    unauthorized_edit: "You can not edit that %{resource}."
+    unauthorized_destroy: "You can not destroy that %{resource}."
+    not_found: "Sorry, the %{resource} not found."
