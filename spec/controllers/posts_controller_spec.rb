@@ -133,7 +133,7 @@ RSpec.describe PostsController, type: :controller do
       context 'when admin want to delete not his own post' do
         subject { delete :destroy, id: another_post.id }
 
-        it { is_expected.to redirect_to posts_path }
+        it { is_expected.to redirect_to post_path(another_post.id) }
 
         it 'flashes info' do
           subject

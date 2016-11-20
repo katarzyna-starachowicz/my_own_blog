@@ -46,12 +46,11 @@ class PostsController < ApplicationController
   end
 
   def destroy
-    post = repo.find_admins_post(current_user.id, params[:id])
-    if post.blank?
-      redirect_to posts_path, notice: 'You can not destroy that post.'
-    else
-      repo.destroy(post.id)
+    post = post_service.admin_destroys_post(params[:id], current_user)
+    if post.try(:valid?)
       redirect_to posts_path, notice: 'Post was successfully destroyed.'
+    else
+      redirect_to post_path(post), notice: 'You can not destroy that post.'
     end
   end
 

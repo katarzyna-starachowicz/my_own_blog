@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe PostService do
   subject(:service) { described_class.new(posts_repo) }
-  let(:posts_repo)  { PostsRepo.new }
+  let!(:posts_repo) { PostsRepo.new }
   let!(:admin)      { create(:user, :admin) }
   let!(:post_1)     { create(:post) }
   let!(:post_2)     { create(:post, user_id: admin.id) }
@@ -115,6 +115,17 @@ RSpec.describe PostService do
     it 'returns post id if post does not belong to admin' do
       expect(service.admin_publishes_edited_post(post_1.id, post_attributes, admin)).
         to eq post_1.id
+    end
+  end
+
+  describe '#admin_destroys_post' do
+    it 'returns Post when post belongs to admin' do
+      expect(service.admin_destroys_post(post_2.id, admin)).
+        to eq post_2
+    end
+
+    it 'returns post id when post does not belong to admin' do
+      expect(service.admin_destroys_post(post_1.id, admin)).to eq post_1.id
     end
   end
 end

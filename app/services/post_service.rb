@@ -46,4 +46,9 @@ class PostService
     )
     post_form.valid? ? @posts_repo.update(post_form) : post_form
   end
+
+  def admin_destroys_post(post_id, admin)
+    return post_id unless @posts_repo.find_admins_post(admin.id, post_id)
+    @posts_repo.destroy(post_id)
+  end
 end
