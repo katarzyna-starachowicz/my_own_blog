@@ -38,7 +38,6 @@ RSpec.describe PostsController, type: :controller do
       it_behaves_like 'template rendering and http success returning', :new
     end
 
-
     describe 'POST #create' do
       subject { post :create, params }
 
@@ -88,7 +87,7 @@ RSpec.describe PostsController, type: :controller do
         before { params[:id] = admin_post.id }
 
         context 'success' do
-          it { is_expected.to redirect_to post_path(Post.find(admin_post.id)) }
+          it { is_expected.to redirect_to post_path(admin_post.id) }
 
           it 'flashes info' do
             subject

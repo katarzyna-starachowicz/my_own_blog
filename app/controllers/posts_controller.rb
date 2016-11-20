@@ -17,7 +17,7 @@ class PostsController < ApplicationController
   end
 
   def create
-    post = post_service.admin_publishes_post(post_form_params, current_user)
+    post = post_service.admin_publishes_new_post(post_form_params, current_user)
     if post.valid?
       redirect_to post, locals: { post: post }, notice: 'Post was successfully created.'
     else
@@ -35,23 +35,13 @@ class PostsController < ApplicationController
   end
 
   def update
-    # I know it's awful, it will be refactored in few next steps...
-    post = repo.find_admins_post(current_user.id, params[:id])
-    if post.blank?
-      redirect_to post_path(repo.find(params[:id])), notice: 'You can not edit that post.'
+    post = post_service.admin_publishes_edited_post(params[:id], post_form_params, current_user)
+    if post.try(:valid?).nil?
+      redirect_to post_path(post), notice: 'You can not edit that post.'
+    elsif post.valid?
+      redirect_to post, locals: { post: post }, notice: 'Post was successfully updated.'
     else
-      post_form = PostForm.new(
-        post_form_params.merge(
-          user_id: current_user.id,
-          id: params[:id]
-        )
-      )
-      if post_form.valid?
-        post = repo.update(post_form)
-        redirect_to post, locals: { post: post }, notice: 'Post was successfully updated.'
-      else
-        render_with_form :edit, post_form
-      end
+      render_with_form :edit, post
     end
   end
 

@@ -15,7 +15,7 @@ class PostService
     PostForm.new
   end
 
-  def admin_publishes_post(post_attributes, admin)
+  def admin_publishes_new_post(post_attributes, admin)
     post_form = PostForm.new(
       post_attributes.merge(user_id: admin.id)
     )
@@ -32,5 +32,18 @@ class PostService
       title:   post.title,
       body:    post.body
     )
+  end
+
+  def admin_publishes_edited_post(post_id, post_attributes, admin)
+    post = @posts_repo.find_admins_post(admin.id, post_id)
+    return post_id unless post
+
+    post_form = PostForm.new(
+      post_attributes.merge(
+        user_id: admin.id,
+        id:      post_id
+      )
+    )
+    post_form.valid? ? @posts_repo.update(post_form) : post_form
   end
 end

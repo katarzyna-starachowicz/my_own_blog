@@ -34,16 +34,16 @@ RSpec.describe PostService do
     end
   end
 
-  describe '#admin_publishes_post' do
+  describe '#admin_publishes_new_post' do
     it 'returns Post instance if attributes are valid' do
-      expect(service.admin_publishes_post(post_attributes, admin)).
+      expect(service.admin_publishes_new_post(post_attributes, admin)).
         to be_an_instance_of Post
     end
 
     it 'returns PostForm instance if attributes are invalid' do
       post_attributes[:title] = ''
 
-      expect(service.admin_publishes_post(post_attributes, admin)).
+      expect(service.admin_publishes_new_post(post_attributes, admin)).
         to be_an_instance_of PostForm
     end
   end
@@ -72,6 +72,49 @@ RSpec.describe PostService do
 
     it 'returns post id if post does not belong to admin' do
       expect(service.admin_edits_post(post_1.id, admin)).to eq post_1.id
+    end
+  end
+
+  describe '#admin_publishes_edited_post' do
+    let(:post_2_form) do
+      PostForm.new(
+        id:      post_2.id,
+        user_id: admin.id,
+        title:   post_attributes[:title],
+        body:    post_attributes[:body]
+      )
+    end
+    context 'when post belongs to admin' do
+      context 'and attributes are valid' do
+        it 'returns Post instance' do
+          expect(service.admin_publishes_edited_post(post_2.id, post_attributes, admin)).
+            to be_an_instance_of Post
+        end
+
+        it 'returns updated Post instance' do
+          expect(service.admin_publishes_edited_post(post_2.id, post_attributes, admin).title).
+            to eq post_attributes[:title]
+        end
+      end
+
+      context 'and attributes are invalid' do
+        before { post_attributes[:title] = '' }
+
+        it 'returns PostForm instance' do
+          expect(service.admin_publishes_edited_post(post_2.id, post_attributes, admin)).
+            to be_an_instance_of PostForm
+        end
+
+        it 'returns updated Post instance' do
+          expect(service.admin_publishes_edited_post(post_2.id, post_attributes, admin).to_h).
+            to eq post_2_form.to_h
+        end
+      end
+    end
+
+    it 'returns post id if post does not belong to admin' do
+      expect(service.admin_publishes_edited_post(post_1.id, post_attributes, admin)).
+        to eq post_1.id
     end
   end
 end
