@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe PostService do
-  subject(:service) { described_class.new(posts_repo) }
-  let!(:posts_repo) { PostsRepo.new }
+  subject(:service) { described_class.new(post_repo) }
+  let!(:post_repo) { PostRepo.new }
   let!(:admin)      { create(:user, :admin) }
   let!(:post_1)     { create(:post) }
   let!(:post_2)     { create(:post, user_id: admin.id) }

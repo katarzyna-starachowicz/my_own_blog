@@ -57,7 +57,7 @@ class PostsController < ApplicationController
   private
 
   def repo
-    @posts_repo ||= PostsRepo.new
+    @post_repo ||= PostRepo.new
   end
 
   def post_service

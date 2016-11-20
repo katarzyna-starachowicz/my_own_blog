@@ -1,6 +1,6 @@
 class PostService
-  def initialize(posts_repo)
-    @posts_repo = posts_repo
+  def initialize(post_repo)
+    @post_repo = post_repo
   end
 
   def load_all_posts
@@ -8,7 +8,7 @@ class PostService
   end
 
   def load_entire_post(post_id)
-    @posts_repo.find(post_id)
+    @post_repo.find(post_id)
   end
 
   def load_empty_post_form
@@ -19,11 +19,11 @@ class PostService
     post_form = PostForm.new(
       post_attributes.merge(user_id: admin.id)
     )
-    post_form.valid? ? @posts_repo.create(post_form) : post_form
+    post_form.valid? ? @post_repo.create(post_form) : post_form
   end
 
   def admin_edits_post(post_id, admin)
-    post = @posts_repo.find_admins_post(admin.id, post_id)
+    post = @post_repo.find_admins_post(admin.id, post_id)
     return post_id unless post
 
     PostForm.new(
@@ -35,7 +35,7 @@ class PostService
   end
 
   def admin_publishes_edited_post(post_id, post_attributes, admin)
-    post = @posts_repo.find_admins_post(admin.id, post_id)
+    post = @post_repo.find_admins_post(admin.id, post_id)
     return post_id unless post
 
     post_form = PostForm.new(
@@ -44,11 +44,11 @@ class PostService
         id:      post_id
       )
     )
-    post_form.valid? ? @posts_repo.update(post_form) : post_form
+    post_form.valid? ? @post_repo.update(post_form) : post_form
   end
 
   def admin_destroys_post(post_id, admin)
-    return post_id unless @posts_repo.find_admins_post(admin.id, post_id)
-    @posts_repo.destroy(post_id)
+    return post_id unless @post_repo.find_admins_post(admin.id, post_id)
+    @post_repo.destroy(post_id)
   end
 end

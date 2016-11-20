@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe PostsRepo do
+RSpec.describe PostRepo do
   subject(:repo) { described_class.new }
 
   let(:admin_1) { create(:user, :admin) }

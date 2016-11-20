@@ -1,4 +1,4 @@
-class PostsRepo
+class PostRepo
   def find(post_id)
     Post.find(post_id)
   end
