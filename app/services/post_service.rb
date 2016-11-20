@@ -21,4 +21,16 @@ class PostService
     )
     post_form.valid? ? @posts_repo.create(post_form) : post_form
   end
+
+  def admin_edits_post(post_id, admin)
+    post = @posts_repo.find_admins_post(admin.id, post_id)
+    return post_id unless post
+
+    PostForm.new(
+      id:      post_id,
+      user_id: post.user_id,
+      title:   post.title,
+      body:    post.body
+    )
+  end
 end

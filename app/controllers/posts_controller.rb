@@ -26,17 +26,11 @@ class PostsController < ApplicationController
   end
 
   def edit
-    post = repo.find_admins_post(current_user.id, params[:id])
-    if post.blank?
-      redirect_to post_path(repo.find(params[:id])), notice: 'You can not edit that post.'
+    post = post_service.admin_edits_post(params[:id], current_user)
+    if post.try(:valid?)
+      render_with_form :edit, post
     else
-      post_form = PostForm.new(
-        id:      params[:id],
-        user_id: post.user_id,
-        title:   post.title,
-        body:    post.body
-      )
-      render_with_form :edit, post_form
+      redirect_to post_path(post), notice: 'You can not edit that post.'
     end
   end
 

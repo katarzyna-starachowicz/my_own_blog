@@ -5,7 +5,7 @@ RSpec.describe PostService do
   let(:posts_repo)  { PostsRepo.new }
   let!(:admin)      { create(:user, :admin) }
   let!(:post_1)     { create(:post) }
-  let!(:post_2)     { create(:post) }
+  let!(:post_2)     { create(:post, user_id: admin.id) }
   let!(:post_attributes) do
     { title: 'title', body: 'body' }
   end
@@ -45,6 +45,33 @@ RSpec.describe PostService do
 
       expect(service.admin_publishes_post(post_attributes, admin)).
         to be_an_instance_of PostForm
+    end
+  end
+
+  describe '#admin_edits_post' do
+    let(:post_2_form) do
+      PostForm.new(
+        id:      post_2.id,
+        user_id: post_2.user_id,
+        title:   post_2.title,
+        body:    post_2.body
+      )
+    end
+
+    context 'when post belongs to admin' do
+      it 'returns PostForm' do
+        expect(service.admin_edits_post(post_2.id, admin)).
+          to be_an_instance_of PostForm
+      end
+
+      it 'returns proper attributes' do
+        expect(service.admin_edits_post(post_2.id, admin).to_h).
+          to eq post_2_form.to_h
+      end
+    end
+
+    it 'returns post id if post does not belong to admin' do
+      expect(service.admin_edits_post(post_1.id, admin)).to eq post_1.id
     end
   end
 end
