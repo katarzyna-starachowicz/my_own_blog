@@ -31,13 +31,8 @@ RSpec.describe PostForm do
   end
 
   describe '#persisted?' do
-    it 'returns false when there is no id' do
-      expect(post_form.persisted?).to be false
-    end
+    let(:form) { post_form }
 
-    it 'returns true when id is present' do
-      attributes[:id] = 1
-      expect(post_form.persisted?).to be true
-    end
+    it_behaves_like '#persisted?'
   end
 end
