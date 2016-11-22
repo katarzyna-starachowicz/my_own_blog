@@ -5,9 +5,9 @@ RSpec.describe CommentForm do
 
   let(:attributes) do
     {
-      body: 'Great article!',
-      commentator_name: 'DHH',
-      commentable_id: 1,
+      body:             'Great article!',
+      user_id:          1,
+      commentable_id:   1,
       commentable_type: 'Post'
     }
   end
@@ -21,23 +21,9 @@ RSpec.describe CommentForm do
     expect(comment_form.valid?).to be false
   end
 
-  it 'is invalid without commentators name' do
-    attributes[:commentator_name] = nil
+  it 'is invalid without user_id' do
+    attributes[:user_id] = nil
     expect(comment_form.valid?).to be false
-  end
-
-  context 'when commentators name is longer than 40 characters' do
-    before { attributes[:commentator_name] = 'A' * 41 }
-
-    it 'is invalid' do
-      expect(comment_form.valid?).to be false
-    end
-
-    it 'has error message' do
-      comment_form.valid?
-      expect(comment_form.errors.full_messages).
-        to include 'Commentator name must have at least 40 characters.'
-    end
   end
 
   it 'is invalid without commentable_id' do
