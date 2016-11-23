@@ -6,11 +6,12 @@ RSpec.describe Admin::PostsController, type: :controller do
 
   let!(:admin_post)   { create(:post, user_id: admin.id) }
   let!(:another_post) { create(:post) }
+  let(:title)         { 'title' }
   let!(:params) do
     {
       post:
         {
-          title: 'title',
+          title: title,
           body: 'body',
           user_id: admin.id
         }
@@ -21,29 +22,29 @@ RSpec.describe Admin::PostsController, type: :controller do
     before { sign_in admin }
 
     describe 'GET #new' do
-      subject { get :new }
+      subject(:action) { get :new }
 
       it_behaves_like 'template rendering and http success returning', :new
     end
 
     describe 'POST #create' do
-      subject { post :create, params }
+      subject(:action) { post :create, params }
 
       context 'success' do
         it { is_expected.to redirect_to post_path(Post.find_by(title: 'title')) }
 
         it 'flashes info' do
-          subject
+          action
           expect(flash[:notice]).to eq 'Post was successfully created.'
         end
 
         it 'creates post' do
-          expect { subject }.to change(Post, :count).by(1)
+          expect { action }.to change(Post, :count).by(1)
         end
       end
 
       context 'failure' do
-        before { params[:post][:title] = '' }
+        let(:title) { nil }
 
         it_behaves_like 'template rendering and http success returning', :new
       end
@@ -51,25 +52,25 @@ RSpec.describe Admin::PostsController, type: :controller do
 
     describe 'GET #edit' do
       context 'when admin want to edit his own post' do
-        subject { get :edit, id: admin_post.id }
+        subject(:action) { get :edit, id: admin_post.id }
 
         it_behaves_like 'template rendering and http success returning', :edit
       end
 
       context 'when admin want to edit not his post' do
-        subject { get :edit, id: another_post.id }
+        subject(:action) { get :edit, id: another_post.id }
 
         it { is_expected.to redirect_to post_path(another_post) }
 
         it 'flashes info' do
-          subject
+          action
           expect(flash[:notice]).to eq('You can not edit that post.')
         end
       end
     end
 
     describe 'PUT #update' do
-      subject { put :update, params }
+      subject(:action) { put :update, params }
 
       context 'when admin want to update his own post' do
         before { params[:id] = admin_post.id }
@@ -78,13 +79,13 @@ RSpec.describe Admin::PostsController, type: :controller do
           it { is_expected.to redirect_to post_path(admin_post.id) }
 
           it 'flashes info' do
-            subject
+            action
             expect(flash[:notice]).to eq 'Post was successfully updated.'
           end
         end
 
         context 'failure' do
-          before { params[:post][:title] = '' }
+          let(:title) { nil }
 
           it { is_expected.to render_template :edit, id: admin_post.id }
         end
@@ -96,7 +97,7 @@ RSpec.describe Admin::PostsController, type: :controller do
         it { is_expected.to redirect_to post_path(another_post) }
 
         it 'flashes info' do
-          subject
+          action
           expect(flash[:notice]).to eq('You can not edit that post.')
         end
       end
@@ -104,32 +105,32 @@ RSpec.describe Admin::PostsController, type: :controller do
 
     describe 'DELETE #destroy' do
       context 'when admin want to delete his own post' do
-        subject { delete :destroy, id: admin_post.id }
+        subject(:action) { delete :destroy, id: admin_post.id }
 
         it { is_expected.to redirect_to posts_path }
 
         it 'flashes info' do
-          subject
+          action
           expect(flash[:notice]).to eq 'Post was successfully deleted.'
         end
 
         it 'destroys post' do
-          expect { subject }.to change(Post, :count).by(-1)
+          expect { action }.to change(Post, :count).by(-1)
         end
       end
 
       context 'when admin want to delete not his own post' do
-        subject { delete :destroy, id: another_post.id }
+        subject(:action) { delete :destroy, id: another_post.id }
 
         it { is_expected.to redirect_to post_path(another_post.id) }
 
         it 'flashes info' do
-          subject
+          action
           expect(flash[:notice]).to eq 'You can not destroy that post.'
         end
 
         it 'does not destroy a post' do
-          expect { subject }.not_to change(Post, :count)
+          expect { action }.not_to change(Post, :count)
         end
       end
     end
@@ -139,32 +140,32 @@ RSpec.describe Admin::PostsController, type: :controller do
     before { sign_in user }
 
     describe 'GET #new' do
-      subject { get :new }
+      subject(:action) { get :new }
 
       it_behaves_like 'redirecting user to admin sign in page'
     end
 
     describe 'POST #create' do
-      subject { post :create, params }
+      subject(:action) { post :create, params }
 
       it_behaves_like 'redirecting user to admin sign in page'
     end
 
     describe 'GET #edit' do
-      subject { get :edit, id: admin_post.id }
+      subject(:action) { get :edit, id: admin_post.id }
 
       it_behaves_like 'redirecting user to admin sign in page'
     end
 
     describe 'PUT #update' do
-      subject { put :update, params }
-      before  { params[:id] = admin_post.id }
+      subject(:action) { put :update, params }
+      before { params[:id] = admin_post.id }
 
       it_behaves_like 'redirecting user to admin sign in page'
     end
 
     describe 'DELETE #destroy' do
-      subject { delete :destroy, id: admin_post.id }
+      subject(:action) { delete :destroy, id: admin_post.id }
 
       it_behaves_like 'redirecting user to admin sign in page'
     end

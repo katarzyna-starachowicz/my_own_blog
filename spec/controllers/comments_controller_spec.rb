@@ -12,18 +12,18 @@ RSpec.describe CommentsController, type: :controller do
   end
 
   describe 'POST #create' do
-    subject { post :create, params }
+    subject(:action) { post :create, params }
 
     context 'success' do
       it { is_expected.to redirect_to :back }
 
       it 'flashes info' do
-        subject
+        action
         expect(flash[:notice]).to eq I18n.t("shared.created", resource: 'comment').capitalize
       end
 
       it 'creates comment for post' do
-        expect { subject }.to change { Post.find(commented_post.id).comments.count }.by(1)
+        expect { action }.to change { Post.find(commented_post.id).comments.count }.by(1)
       end
     end
 
@@ -33,12 +33,12 @@ RSpec.describe CommentsController, type: :controller do
       it { is_expected.to redirect_to :back }
 
       it 'flashes info' do
-        subject
+        action
         expect(flash[:notice]).to eq 'Something went wrong...'
       end
 
       it 'does not create comment' do
-        expect { subject }.not_to change(Comment, :count)
+        expect { action }.not_to change(Comment, :count)
       end
     end
 

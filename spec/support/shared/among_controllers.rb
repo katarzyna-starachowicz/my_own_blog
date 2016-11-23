@@ -10,7 +10,7 @@ shared_examples 'redirecting user to admin sign in page' do
   it { is_expected.to redirect_to new_user_session_path }
 
   it 'flashes info' do
-    subject
+    action
     expect(flash[:notice]).to eq('To access this page you must be logged as an admin.')
   end
 end

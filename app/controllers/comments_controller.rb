@@ -3,8 +3,8 @@ class CommentsController < ApplicationController
 
   def create
     comment = comment_service.user_publishes_new_comment(
-        comment_form_params, commentable, current_user
-      )
+      comment_form_params, commentable, current_user
+    )
     if comment.valid?
       redirect_to :back, notice: I18n.t("shared.created", resource: 'comment').capitalize
     else
