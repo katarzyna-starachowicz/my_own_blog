@@ -2,12 +2,13 @@ require 'rails_helper'
 
 RSpec.describe PostService do
   subject(:service) { described_class.new(post_repo) }
-  let!(:post_repo) { PostRepo.new }
+  let!(:post_repo)  { PostRepo.new }
   let!(:admin)      { create(:user, :admin) }
   let!(:post_1)     { create(:post) }
   let!(:post_2)     { create(:post, user_id: admin.id) }
+  let(:title)       { 'title' }
   let!(:post_attributes) do
-    { title: 'title', body: 'body' }
+    { title: title, body: 'body' }
   end
 
   describe '#load_entire_post' do
@@ -24,7 +25,7 @@ RSpec.describe PostService do
     let(:all_posts) { service.load_all_posts }
 
     it 'returns posts in proper order' do
-      expect(all_posts.pluck(:id)).to eq([post_2.id, post_1.id])
+      expect(all_posts).to match_array [post_2, post_1]
     end
 
     it 'returns' do
@@ -39,16 +40,20 @@ RSpec.describe PostService do
   end
 
   describe '#admin_publishes_new_post' do
-    it 'returns Post instance if attributes are valid' do
-      expect(service.admin_publishes_new_post(post_attributes, admin)).
-        to be_an_instance_of Post
+    context 'when attributes are valid' do
+      it 'returns Post instance' do
+        expect(service.admin_publishes_new_post(post_attributes, admin)).
+          to be_an_instance_of Post
+      end
     end
 
-    it 'returns PostForm instance if attributes are invalid' do
-      post_attributes[:title] = ''
+    context 'when attributes are invalid' do
+      let(:title) { nil }
 
-      expect(service.admin_publishes_new_post(post_attributes, admin)).
-        to be_an_instance_of PostForm
+      it 'returns PostForm instance if attributes are invalid' do
+        expect(service.admin_publishes_new_post(post_attributes, admin)).
+          to be_an_instance_of PostForm
+      end
     end
   end
 
@@ -74,8 +79,9 @@ RSpec.describe PostService do
       end
     end
 
-    it 'returns post id if post does not belong to admin' do
-      expect(service.admin_edits_post(post_1.id, admin)).to eq post_1.id
+    it 'raises Unauthorized Error if post does not belong to admin' do
+      expect { service.admin_edits_post(post_1.id, admin) }.
+        to raise_error(PostService::Unauthorized)
     end
   end
 
@@ -102,7 +108,7 @@ RSpec.describe PostService do
       end
 
       context 'and attributes are invalid' do
-        before { post_attributes[:title] = '' }
+        let(:title) { nil }
 
         it 'returns PostForm instance' do
           expect(service.admin_publishes_edited_post(post_2.id, post_attributes, admin)).
@@ -116,9 +122,9 @@ RSpec.describe PostService do
       end
     end
 
-    it 'returns post id if post does not belong to admin' do
-      expect(service.admin_publishes_edited_post(post_1.id, post_attributes, admin)).
-        to eq post_1.id
+    it 'raises Unauthorized Error if post does not belong to admin' do
+      expect { service.admin_publishes_edited_post(post_1.id, post_attributes, admin) }.
+        to raise_error(PostService::Unauthorized)
     end
   end
 

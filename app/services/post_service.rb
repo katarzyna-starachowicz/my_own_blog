@@ -1,4 +1,6 @@
 class PostService
+  Unauthorized = Class.new(StandardError)
+
   def initialize(post_repo)
     @post_repo = post_repo
   end
@@ -26,7 +28,7 @@ class PostService
 
   def admin_edits_post(post_id, admin)
     post = @post_repo.find_admins_post(admin.id, post_id)
-    return post_id unless post
+    raise Unauthorized, I18n.t('shared.unauthorized_edit', resource: 'post') if post.nil?
 
     PostForm.new(
       id:      post_id,
@@ -38,7 +40,7 @@ class PostService
 
   def admin_publishes_edited_post(post_id, post_attributes, admin)
     post = @post_repo.find_admins_post(admin.id, post_id)
-    return post_id unless post
+    raise Unauthorized, I18n.t('shared.unauthorized_edit', resource: 'post') if post.nil?
 
     post_form = PostForm.new(
       post_attributes.merge(

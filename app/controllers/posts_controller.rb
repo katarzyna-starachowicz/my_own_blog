@@ -31,22 +31,20 @@ class PostsController < ApplicationController
 
   def edit
     post = post_service.admin_edits_post(params[:id], current_user)
-    if post.try(:valid?)
-      render_with_form :edit, post
-    else
-      redirect_to post_path(post), notice: i18n_post('unauthorized_edit')
-    end
+    render_with_form :edit, post
+  rescue PostService::Unauthorized => e
+    redirect_to post_path(params[:id]), notice: e.message
   end
 
   def update
     post = post_service.admin_publishes_edited_post(params[:id], post_form_params, current_user)
-    if post.try(:valid?).nil?
-      redirect_to post_path(post), notice: i18n_post('unauthorized_edit')
-    elsif post.valid?
+    if post.valid?
       redirect_to post, locals: { post: post }, notice: i18n_post('updated')
     else
       render_with_form :edit, post
     end
+  rescue PostService::Unauthorized => e
+    redirect_to post_path(params[:id]), notice: e.message
   end
 
   def destroy

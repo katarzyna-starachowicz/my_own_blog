@@ -61,7 +61,7 @@ RSpec.describe PostsController, type: :controller do
         end
 
         it 'creates post' do
-          expect{ subject }.to change(Post, :count).by(1)
+          expect { subject }.to change(Post, :count).by(1)
         end
       end
 
@@ -107,7 +107,7 @@ RSpec.describe PostsController, type: :controller do
         end
 
         context 'failure' do
-         before { params[:post][:title] = '' }
+          before { params[:post][:title] = '' }
 
           it { is_expected.to render_template :edit, id: admin_post.id }
         end
@@ -137,7 +137,7 @@ RSpec.describe PostsController, type: :controller do
         end
 
         it 'destroys post' do
-          expect{ subject }.to change(Post, :count).by(-1)
+          expect { subject }.to change(Post, :count).by(-1)
         end
       end
 
@@ -152,7 +152,7 @@ RSpec.describe PostsController, type: :controller do
         end
 
         it 'does not destroy a post' do
-          expect{ subject }.not_to change(Post, :count)
+          expect { subject }.not_to change(Post, :count)
         end
       end
     end
