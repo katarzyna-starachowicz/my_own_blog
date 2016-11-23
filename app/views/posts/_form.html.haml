@@ -1,10 +1,10 @@
-= form_for post_form, url: url_for_form(post_form) do |f|
+= form_for post do |f|
 
-  - if post_form.errors.any?
+  - if post.errors.any?
     .errors
-      %h3 #{pluralize(post_form.errors.count, 'error')} prevented this post from saving:
+      %h3 #{pluralize(post.errors.count, 'error')} prevented this post from saving:
       %ul
-        - post_form.errors.full_messages.each do |msg|
+        - post.errors.full_messages.each do |msg|
           %li= msg
 
   = f.label :title

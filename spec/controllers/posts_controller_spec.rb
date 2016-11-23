@@ -8,7 +8,7 @@ RSpec.describe PostsController, type: :controller do
   let!(:another_post) { create(:post) }
   let!(:params) do
     {
-      post_form:
+      post:
         {
           title: 'title',
           body: 'body',
@@ -66,7 +66,7 @@ RSpec.describe PostsController, type: :controller do
       end
 
       context 'failure' do
-        before { params[:post_form][:title] = '' }
+        before { params[:post][:title] = '' }
 
         it_behaves_like 'template rendering and http success returning', :new
       end
@@ -107,7 +107,7 @@ RSpec.describe PostsController, type: :controller do
         end
 
         context 'failure' do
-         before { params[:post_form][:title] = '' }
+         before { params[:post][:title] = '' }
 
           it { is_expected.to render_template :edit, id: admin_post.id }
         end

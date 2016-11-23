@@ -1,12 +1,4 @@
-class CommentForm
-  include Virtus.model
-  include ActiveModel::Model
-
-  def self.model_name
-    ActiveModel::Name.new(self, nil, self.name.gsub(/Form\Z/, ''))
-  end
-
-  attribute :id,               Integer
+class CommentForm < BasicForm
   attribute :body,             String
   attribute :user_id,          Integer
   attribute :commentable_id,   Integer
@@ -16,8 +8,5 @@ class CommentForm
             :user_id,
             :commentable_id,
             :commentable_type, presence: true
-
-  def persisted?
-    id.present?
-  end
+  validates :commentable_type, inclusion: { in: %w(Post Comment) }
 end

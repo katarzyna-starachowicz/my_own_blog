@@ -1,10 +1,17 @@
+shared_examples '#self.model_name' do
+  it 'returns proper model name' do
+    expect(described_class.model_name.name).to eq model_name
+  end
+end
+
 shared_examples '#persisted?' do
-  it 'returns false when there is no id' do
-    expect(form.persisted?).to be false
+  context 'when id is absent' do
+    it { is_expected.not_to be_persisted }
   end
 
-  it 'returns true when id is present' do
-    attributes[:id] = 1
-    expect(form.persisted?).to be true
+  context 'when id is present' do
+    let(:id) { 1 }
+
+    it { is_expected.to be_persisted }
   end
 end

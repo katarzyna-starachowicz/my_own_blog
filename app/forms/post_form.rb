@@ -1,15 +1,7 @@
-class PostForm
-  include Virtus.model
-  include ActiveModel::Model
-
-  attribute :user_id, Integer
-  attribute :title,   String
+class PostForm < BasicForm
   attribute :body,    String
-  attribute :id,      Integer
+  attribute :title,   String
+  attribute :user_id, Integer
 
-  validates :title, :body, :user_id, presence: true
-
-  def persisted?
-    !id.blank?
-  end
+  validates :body, :title, :user_id, presence: true
 end

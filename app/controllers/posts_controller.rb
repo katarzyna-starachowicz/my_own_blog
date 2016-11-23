@@ -69,11 +69,11 @@ class PostsController < ApplicationController
   end
 
   def render_with_form(template, post_form)
-    render template, locals: { post_form: post_form }
+    render template, locals: { post: post_form }
   end
 
   def post_form_params
-    params.require(:post_form).permit(:title, :body)
+    params.require(:post).permit(:title, :body)
   end
 
   def i18n_post(action)

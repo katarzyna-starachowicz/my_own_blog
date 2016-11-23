@@ -3,45 +3,63 @@ require 'rails_helper'
 RSpec.describe CommentForm do
   subject(:comment_form) { described_class.new(attributes) }
 
+  let(:id)               { nil }
+  let(:body)             { 'Great article!' }
+  let(:user_id)          { 1 }
+  let(:commentable_id)   { 1 }
+  let(:commentable_type) { 'Post' }
   let(:attributes) do
     {
-      body:             'Great article!',
-      user_id:          1,
-      commentable_id:   1,
-      commentable_type: 'Post'
+      id:               id,
+      body:             body,
+      user_id:          user_id,
+      commentable_id:   commentable_id,
+      commentable_type: commentable_type
     }
   end
 
-  it 'is valid with valid attributes' do
-    expect(comment_form.valid?).to be true
+  context 'with valid attributes' do
+    it { is_expected.to be_valid }
   end
 
-  it 'is invalid without body' do
-    attributes[:body] = nil
-    expect(comment_form.valid?).to be false
+  context 'without body' do
+    let(:body) { nil }
+
+    it { is_expected.not_to be_valid }
   end
 
-  it 'is invalid without user_id' do
-    attributes[:user_id] = nil
-    expect(comment_form.valid?).to be false
+  context 'without user_id' do
+    let(:user_id) { nil }
+
+    it { is_expected.not_to be_valid }
   end
 
-  it 'is invalid without commentable_id' do
-    attributes[:commentable_id] = nil
-    expect(comment_form.valid?).to be false
+  context 'without commentable_id' do
+    let(:commentable_id) { nil }
+
+    it { is_expected.not_to be_valid }
   end
 
-  it 'is invalid without commentable_type' do
-    attributes[:commentable_type] = nil
-    expect(comment_form.valid?).to be false
+  context 'without commentable_type' do
+    let(:commentable_type) { nil }
+
+    it { is_expected.not_to be_valid }
   end
 
-  it 'returns model name' do
-    expect(described_class.model_name.name).to eq 'Comment'
+  context 'with commentable_type antoher than Post or Comment' do
+    let(:commentable_type) { 'User' }
+
+    it { is_expected.not_to be_valid }
+  end
+
+  describe '#self.model_name' do
+    let(:model_name) { 'Comment' }
+
+    it_behaves_like '#self.model_name'
   end
 
   describe '#persisted?' do
-    let(:form) { comment_form }
+    subject(:form) { comment_form }
 
     it_behaves_like '#persisted?'
   end
