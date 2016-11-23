@@ -5,8 +5,12 @@ RSpec.describe PostRepo do
 
   let(:admin_1) { create(:user, :admin) }
   let(:admin_2) { create(:user, :admin) }
-  let(:post_1)  { create(:post, title: 'title_1', user_id: admin_1.id) }
-  let(:post_2)  { create(:post, user_id: admin_2.id) }
+
+  let(:title_before_update) { 'Title One' }
+  let(:title_after_update)  { 'Title Two' }
+
+  let(:post_1) { create(:post, title: title_before_update, user_id: admin_1.id) }
+  let(:post_2) { create(:post, user_id: admin_2.id) }
 
   describe '#find' do
     it 'finds a post by id' do
@@ -27,7 +31,7 @@ RSpec.describe PostRepo do
   describe '#create' do
     let(:form) do
       PostForm.new(
-        title:   'title',
+        title:   title_after_update,
         body:    'body',
         user_id: admin_1.id
       )
@@ -42,7 +46,7 @@ RSpec.describe PostRepo do
     let(:form) do
       PostForm.new(
         id:      post_1.id,
-        title:   'title_2',
+        title:   title_after_update,
         body:    post_1.body,
         user_id: admin_1.id
       )
@@ -50,7 +54,9 @@ RSpec.describe PostRepo do
 
     it 'updates a post' do
       expect { repo.update(form) }.
-        to change { post_1.reload.title }.from('title_1').to('title_2')
+        to change { post_1.reload.title }.
+        from(title_before_update).
+        to(title_after_update)
     end
   end
 
