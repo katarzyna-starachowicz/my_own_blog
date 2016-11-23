@@ -3,7 +3,14 @@ class CommentService
     @comment_repo = comment_repo
   end
 
-  def user_writes_new_comment
-    CommentForm.new
+  def user_publishes_new_comment(comment_attributes, commentable, user)
+    comment_form = CommentForm.new(
+        comment_attributes.merge(
+            user_id:          user.id,
+            commentable_id:   commentable.values.first,
+            commentable_type: commentable.keys.first
+          )
+      )
+    comment_form.valid? ? @comment_repo.create(comment_form) : comment_form
   end
 end

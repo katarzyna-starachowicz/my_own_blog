@@ -36,6 +36,10 @@ RSpec.describe CommentForm do
     expect(comment_form.valid?).to be false
   end
 
+  it 'returns model name' do
+    expect(described_class.model_name.name).to eq 'Comment'
+  end
+
   describe '#persisted?' do
     let(:form) { comment_form }
 

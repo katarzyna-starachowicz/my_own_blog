@@ -2,6 +2,10 @@ class CommentForm
   include Virtus.model
   include ActiveModel::Model
 
+  def self.model_name
+    ActiveModel::Name.new(self, nil, self.name.gsub(/Form\Z/, ''))
+  end
+
   attribute :id,               Integer
   attribute :body,             String
   attribute :user_id,          Integer
@@ -14,6 +18,6 @@ class CommentForm
             :commentable_type, presence: true
 
   def persisted?
-    !id.blank?
+    id.present?
   end
 end

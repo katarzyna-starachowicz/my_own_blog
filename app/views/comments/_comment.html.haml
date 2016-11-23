@@ -1,0 +1,14 @@
+%li
+  = comment.body
+  %br
+  %small
+    Submitted #{time_ago_in_words(comment.created_at)} ago.
+
+  - if user_signed_in?
+    = form_for [comment, CommentForm.new]  do |f|
+      = f.text_area :body, placeholder: 'Add a Reply'
+      %br
+      = f.submit 'Reply'
+
+  %ul
+    = render partial: 'comments/comment', collection: comment.comments, as: :comment
