@@ -8,10 +8,10 @@ Rails.application.routes.draw do
   resources :posts, except: [:show, :index], module: :admin
 
   resources :posts, only: [:show, :index] do
-    resources :comments, only: [:new, :create]
+    resources :comments, only: :create
   end
 
   resources :comments do
-    resources :comments, only: [:new, :create]
+    resources :comments, only: :create
   end
 end
