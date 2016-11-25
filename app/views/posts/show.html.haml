@@ -12,14 +12,14 @@
   .body
     = post.body.html_safe
 
-
-  %h3 Commnets
+.comment_wrapper
+  %h3 Comments
   - if user_signed_in?
-    .comment_clearfix
+    .post_comment
       = form_for [post, CommentForm.new] do |f|
         = f.text_area :body, placeholder: 'Add a comment'
         %br
         = f.submit 'Add Comment'
 
-  %ul
+  %ul.comment
     = render partial: 'comments/comment', collection: post.comments, as: :comment

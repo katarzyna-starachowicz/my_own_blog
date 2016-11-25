@@ -52,14 +52,6 @@ a {
   }
 }
 
-.clearfix:after {
-   content: ".";
-   visibility: hidden;
-   display: block;
-   height: 0;
-   clear: both;
-}
-
 button {
   outline: none;
   background: transparent;
@@ -152,6 +144,46 @@ button {
     .body {
       color: #696969;
       margin-top: 1.5em;
+    }
+  }
+  .comment_wrapper {
+    padding-top: 1.5em;
+    padding-left: 2.5em;
+    textarea {
+      width: 40%;
+      min-height: 20px;
+      padding: .2em .5em;
+      font-size: .2em;
+    }
+    input[type="submit"] {
+      padding: .4em .8em;
+      font-size: .4em;
+      margin-left: .5em;
+      margin-bottom: 1em;
+    }
+    .post_comment {
+      textarea {
+        width: 60%;
+        min-height: 50px;
+      }
+    }
+    ul.comment {
+      border-bottom: 1px solid #d6dce0;
+      padding: 0 2em 2em 0;
+      list-style: none;
+      li {
+        margin: 2em 0 0 0;
+        color: #696969;
+        small {
+          color: #778899;
+        }
+      }
+      ul {
+        list-style: none;
+        li {
+          margin: 2em 0 0 0;
+        }
+      }
     }
   }
 
