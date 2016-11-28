@@ -2,8 +2,9 @@ require 'rails_helper'
 
 feature 'Admin deletes comments' do
   let(:admin)    { create :user, :admin }
-  let!(:post)    { create :post }
-  let!(:comment) { create :comment, :on_post, commentable_id: post.id }
+  let(:user)     { create :user }
+  let(:post)     { create :post }
+  let!(:comment) { create :comment, :on_post, commentable_id: post.id, user_id: user.id  }
 
   before do
     sign_in_as admin

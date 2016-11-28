@@ -20,6 +20,10 @@
         = f.text_area :body, placeholder: 'Add a comment'
         %br
         = f.submit 'Add Comment'
+  - else
+    Please #{link_to 'log in',  new_user_session_path} or #{link_to 'sign up', new_user_registration_path} to comment.
+
+
 
   %ul.comment
     = render partial: 'comments/comment', collection: post.comments, as: :comment
