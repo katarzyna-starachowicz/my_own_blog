@@ -5,7 +5,9 @@ Rails.application.routes.draw do
 
   get 'home/about_me', as: 'about_me'
 
-  resources :posts, except: [:show, :index], module: :admin
+  resources :posts, except: [:show, :index], module: :admin do
+    resources :comments, only: :destroy
+  end
 
   resources :posts, only: [:show, :index] do
     resources :comments, only: :create

@@ -11,4 +11,8 @@ class CommentRepo
       commentable_type: comment_form.commentable_type
     )
   end
+
+  def destroy(comment_id)
+    find(comment_id).destroy
+  end
 end

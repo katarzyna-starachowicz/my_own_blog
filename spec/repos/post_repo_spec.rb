@@ -9,8 +9,8 @@ RSpec.describe PostRepo do
   let(:title_before_update) { 'Title One' }
   let(:title_after_update)  { 'Title Two' }
 
-  let(:post_1) { create(:post, title: title_before_update, user_id: admin_1.id) }
-  let(:post_2) { create(:post, user_id: admin_2.id) }
+  let!(:post_1) { create(:post, title: title_before_update, user_id: admin_1.id) }
+  let(:post_2)  { create(:post, user_id: admin_2.id) }
 
   describe '#find' do
     it 'finds a post by id' do
@@ -62,10 +62,14 @@ RSpec.describe PostRepo do
 
   describe '#destroy' do
     let(:post_1_id) { post_1.id }
-    before { repo.destroy(post_1_id) }
+    let!(:comment)  { create(:comment, :on_post, commentable_id: post_1_id) }
 
     it 'destroys a post' do
-      expect { repo.find(post_1_id) }.to raise_exception(ActiveRecord::RecordNotFound)
+      expect { repo.destroy(post_1_id) }.to change { Post.count }.by(-1)
+    end
+
+    it 'destroys also posts comments' do
+      expect { repo.destroy(post_1_id) }.to change { Comment.count }.by(-1)
     end
   end
 end

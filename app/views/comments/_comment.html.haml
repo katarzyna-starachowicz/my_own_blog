@@ -4,6 +4,9 @@
   %small
     Submitted #{time_ago_in_words(comment.created_at)} ago.
 
+  - if admin_signed_in?
+    = link_to 'Delete', post_comment_path(comment.commentable, comment), method: :delete, data: { confirm: 'Are you sure?' }
+
   - if user_signed_in?
     = form_for [comment, CommentForm.new]  do |f|
       = f.text_area :body, placeholder: 'Add a Reply'

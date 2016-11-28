@@ -7,7 +7,7 @@ feature 'Admin deletes post' do
   let!(:not_admins_post) { create :post }
 
   before do
-    sign_in_as(admin)
+    sign_in_as admin
     click_on 'All posts'
   end
 
