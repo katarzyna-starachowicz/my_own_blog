@@ -1,28 +1,25 @@
-== README
+== Blog application (Ruby on Rails 4.2.7)
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+It's not complicated blog application, but have something more than every tutorial offers:
 
-Things you may want to cover:
+* services,
 
-* Ruby version
+* repositories,
 
-* System dependencies
+* form objects,
 
-* Configuration
+* one small extracted query ;)
 
-* Database creation
+* modules for routes, nested routes,
 
-* Database initialization
+* Rspec and Capybara tests.
 
-* How to run the test suite
+It uses gems like:
 
-* Services (job queues, cache servers, search engines, etc.)
+* devise,
 
-* Deployment instructions
+* haml,
 
-* ...
+* rubocop.
 
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+And it's not over...
